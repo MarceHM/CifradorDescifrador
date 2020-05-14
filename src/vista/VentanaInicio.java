@@ -6,10 +6,15 @@ import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import modelo.Cifrador;
+import modelo.Descifrador;
+
 public class VentanaInicio extends JFrame{
 	
 	private PanelOpciones panelOpciones;
 	private PanelSeleccion panelSeleccion;
+	private Cifrador cifrador;
+	private Descifrador descifrador;
 	private File archivo;
 	
 	public VentanaInicio() {
@@ -19,6 +24,8 @@ public class VentanaInicio extends JFrame{
 
 		panelOpciones = new PanelOpciones(this);
 		panelSeleccion = new PanelSeleccion(this);
+		cifrador=new Cifrador();
+		descifrador=new Descifrador();
 		
 		add(panelSeleccion, BorderLayout.CENTER);
 		add(panelOpciones, BorderLayout.SOUTH);
@@ -35,10 +42,14 @@ public class VentanaInicio extends JFrame{
 		String ruta = panelSeleccion.getRuta();
 		String contra = panelSeleccion.getContra();
 		
+		
 		if(ruta!=null && contra!=null && !ruta.equals("") && !contra.equals("")) {
 			
 			if(archivo!=null) {
-				//Cifrar el archivo
+				
+				cifrador.setArchivo(archivo);
+				cifrador.setContrasenha(contra);
+				cifrador.cifrar(archivo,contra);
 				
 			}
 			
@@ -59,7 +70,9 @@ public class VentanaInicio extends JFrame{
 		if(ruta!=null && contra!=null && !ruta.equals("") && !contra.equals("")) {
 			
 			if(archivo!=null) {
-				//Descifrar el archivo
+				
+				descifrador.decifrar(archivo, contra);
+				descifrador.decifrar(archivo, contra);
 				
 			}
 			
