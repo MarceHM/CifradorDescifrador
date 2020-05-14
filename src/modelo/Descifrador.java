@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -21,6 +22,8 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class Descifrador {
 	
+	
+	private byte[] sha;
 	
 	/**
 	 * Variable de tipo File con el archivo que será cifrado
@@ -136,6 +139,7 @@ public class Descifrador {
 		byte[] bytes = null;
 		
 		try {
+			
 			//bytes = Files.readAllBytes(file.toPath());
 			FileInputStream fis = new FileInputStream(file);
 			int mod = (int)file.length()%16;
@@ -159,15 +163,21 @@ public class Descifrador {
 	 * Método byteToFile Convierte un arreglo de bytes a un archivo
 	 * 
 	 * @param bytes arreglo de bytes para conversión
-	 * @return file archivo
+	 * @return file ar
+ * @throws NoSuchAlgorithmException chivo
 	 */
-	public File byteToFile(byte[] bytes) {
+	public File byteToFile(byte[] bytes) throws NoSuchAlgorithmException {
 		File file = new File("C:\\Users\\Alejandra Sanchez\\Desktop\\desencript.txt");
 		
 		try {
+			MessageDigest messageDigest= MessageDigest.getInstance("SHA");
 			OutputStream os = new FileOutputStream(file);
 			os.write(bytes);
+			byte[] holi=bytes;
+			messageDigest.update(holi);
 			os.close();
+			sha=messageDigest.digest();
+			System.out.println(bytesToHex(sha));
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -233,20 +243,21 @@ public class Descifrador {
 		 * @throws NoSuchAlgorithmException
 		 * @throws InvalidKeySpecException
 		 */
-		 public static String generateStorngPasswordHash(String password) throws NoSuchAlgorithmException, InvalidKeySpecException
-		    {
-		        int iterations = 1000;
-		        char[] chars = password.toCharArray();
-		        byte[] salt = getSalt();
-		         
-		        PBEKeySpec spec = new PBEKeySpec(chars, salt, iterations, 128);
-		        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-		        byte[] hash = skf.generateSecret(spec).getEncoded();
-		        System.out.println("El toHex con valor hash es:"+ toHex(hash));
-		        System.out.println("El resultado que retorna es:"+ iterations + ":" + toHex(salt) + ":" + toHex(hash));
-		        System.out.println(toHex(salt).length() + "y" + toHex(hash).length());
-		        return toHex(hash);
-		    }
+		
+	   public static String generateStorngPasswordHash(String password) throws NoSuchAlgorithmException, InvalidKeySpecException
+	    {
+	        int iterations = 1000;
+	        char[] chars = password.toCharArray();
+	        byte[] salt = getSalt();
+	         
+	        PBEKeySpec spec = new PBEKeySpec(chars, salt, iterations, 128);
+	        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+	        byte[] hash = skf.generateSecret(spec).getEncoded();
+	        System.out.println("El toHex con valor hash es:"+ toHex(hash));
+	        System.out.println("El resultado que retorna es:"+ iterations + ":" + toHex(salt) + ":" + toHex(hash));
+	        System.out.println(toHex(salt).length() + "y" + toHex(hash).length());
+	        return toHex(hash);
+	    }
 		 
 		 
 		 /**

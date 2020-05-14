@@ -72,7 +72,6 @@ public class VentanaInicio extends JFrame{
 			if(archivo!=null) {
 				
 				descifrador.decifrar(archivo, contra);
-				descifrador.decifrar(archivo, contra);
 				
 			}
 			

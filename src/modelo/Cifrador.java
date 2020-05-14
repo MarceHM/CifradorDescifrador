@@ -266,6 +266,7 @@ public class Cifrador {
 		PBEKeySpec spec = new PBEKeySpec(chars, salt, iterations, 128);
 		SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
 		byte[] hash = skf.generateSecret(spec).getEncoded();
+		System.out.println(toHex(hash));
 		return toHex(hash);
 	}
 	
