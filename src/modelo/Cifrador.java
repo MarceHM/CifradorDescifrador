@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigInteger;
 import java.nio.file.Files;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -44,6 +45,8 @@ public class Cifrador {
 	 * Variable de tipo File con el archivo que será cifrado
 	 */
 	private File archivo;
+	
+	private byte[] sha;
 
 	/**
 	 * Constructor de la clase Cifrador
@@ -148,8 +151,11 @@ public class Cifrador {
 	public byte[] fileToByte(File file) {
 
 		byte[] bytes = null;
+	
 
 		try {
+			
+			MessageDigest messageDigest= MessageDigest.getInstance("SHA");
 			// bytes = Files.readAllBytes(file.toPath());
 			FileInputStream fis = new FileInputStream(file);
 			int mod = (int) file.length() % 16;
@@ -160,9 +166,14 @@ public class Cifrador {
 			}
 
 			fis.read(bytes);
+			byte[] holi=bytes;
+			messageDigest.update(holi);
+			
 			fis.close();
+			sha=messageDigest.digest();
+			System.out.println(bytesToHex(sha));
 
-		} catch (IOException e) {
+		} catch (IOException | NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
 
