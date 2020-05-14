@@ -167,7 +167,7 @@ public class Descifrador {
  * @throws NoSuchAlgorithmException chivo
 	 */
 	public File byteToFile(byte[] bytes) throws NoSuchAlgorithmException {
-		File file = new File("C:\\Users\\Alejandra Sanchez\\Desktop\\desencript.txt");
+		File file = new File("C:\\Users\\Alejandra Sanchez\\Desktop\\Seguridad\\desencript.txt");
 		
 		try {
 			MessageDigest messageDigest= MessageDigest.getInstance("SHA");

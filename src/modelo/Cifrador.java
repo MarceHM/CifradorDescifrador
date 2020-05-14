@@ -187,7 +187,7 @@ public class Cifrador {
 	 * @return file archivo
 	 */
 	public File byteToFile(byte[] bytes) {
-		File file = new File("C:\\Users\\Alejandra Sanchez\\Desktop\\salida.txt");
+		File file = new File("C:\\Users\\Alejandra Sanchez\\Desktop\\Seguridad\\salida.txt");
 
 		try {
 			OutputStream os = new FileOutputStream(file);
